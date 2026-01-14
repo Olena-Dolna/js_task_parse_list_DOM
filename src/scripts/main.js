@@ -13,14 +13,10 @@ function sortList(list) {
   );
 
   const listWrapper = document.querySelector('ul');
-  const employeesHTML = list.reduce(
-    (addedLines, employee) =>
-      addedLines +
-      `<li data-position=${employee.dataset.position} data-salary=${employee.dataset.salary} data-age=${employee.dataset.age}>${employee.textContent}</li>`,
-    '',
-  );
 
-  listWrapper.innerHTML = employeesHTML;
+  for (const person of list) {
+    listWrapper.append(person);
+  }
 }
 
 function getEmployees(list) {
