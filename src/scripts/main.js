@@ -1,23 +1,26 @@
 'use strict';
 
 const employees = Array.from(document.querySelectorAll('li'));
-const employeesSorted = getEmployees(sortList(employees));
 
-const employeesHTML = employeesSorted.map(
-  (person) =>
-    `<li data-position=${person.position} data-salary=${person.salary} data-age=${person.age}>${person.name}</li>`,
-);
-
-const listWrapper = document.querySelector('ul');
-
-listWrapper.innerHTML = employeesHTML.join('');
+sortList(employees);
+getEmployees(employees);
 
 function sortList(list) {
-  return list.sort(
+  list.sort(
     (firstItem, secondItem) =>
-      parseFloat(secondItem.dataset.salary.slice(1)) -
-      parseFloat(firstItem.dataset.salary.slice(1)),
+      getSalary(secondItem.dataset.salary) -
+      getSalary(firstItem.dataset.salary),
   );
+
+  const listWrapper = document.querySelector('ul');
+  const employeesHTML = list.reduce(
+    (addedLines, employee) =>
+      addedLines +
+      `<li data-position=${employee.dataset.position} data-salary=${employee.dataset.salary} data-age=${employee.dataset.age}>${employee.textContent}</li>`,
+    '',
+  );
+
+  listWrapper.innerHTML = employeesHTML;
 }
 
 function getEmployees(list) {
@@ -27,6 +30,10 @@ function getEmployees(list) {
     salary: employee.dataset.salary,
     age: employee.dataset.age,
   }));
+}
+
+function getSalary(salary) {
+  return parseFloat(salary.slice(1));
 }
 
 // write code here
